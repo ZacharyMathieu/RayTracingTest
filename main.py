@@ -4,33 +4,8 @@ from PyQt5.QtGui import QPainter, QPaintEvent, QPen
 from PyQt5.QtCore import QThread, QObject, Qt, QSize, QTimer
 import sys
 
-# WINDOW_WIDTH = 1280
-# WINDOW_HEIGHT = 720
 WINDOW_WIDTH = 1920
 WINDOW_HEIGHT = 1080
-
-
-# class Worker(QObject):
-#     continue_loop = True
-#     redraw_call = None
-#
-#     def __init__(self, redraw_call):
-#         super().__init__()
-#         self.redraw_call = redraw_call
-#         print("INIT DE WORKER")
-#         # self.redraw_call(None)
-#
-#     def start(self):
-#         self.continue_loop = True
-#         self.main_loop()
-#
-#     def stop(self):
-#         self.continue_loop = False
-#
-#     def main_loop(self):
-#         while self.continue_loop:
-#             self.redraw_call()
-#             QThread.msleep(MSPF)
 
 
 class MainWindow(QMainWindow):

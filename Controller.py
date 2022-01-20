@@ -28,12 +28,17 @@ def average_color(color_list: list) -> QColor:
         # return color_list[0]
 
 
+def adjust_color(index, color: QColor) -> QColor:
+    # return QColor(color.red() / index, color.green() / index, color.blue() / index, color.alpha() / index)
+    return QColor(color.red(), color.green(), color.blue(), color.alpha() / index)
+
+
 class Controller:
     model = Model()
     observer = Observer(Line(Point(-1, 0, 0), Point(1, 0, 0.2)))
     display_mode = 2
     SCALE_2D = 50
-    N_RAYS_H = 50
+    N_RAYS_H = 100
     STEP = 1 / N_RAYS_H
     RENDER_DISTANCE = 50
 
@@ -174,7 +179,7 @@ class Controller:
         color = Qt.white
         loop_count = 0
         collision = False
-        final_dist_data = 1
+        final_dist_data = 0
         # while total_distance < self.RENDER_DISTANCE:
         #     new_distance = self.distance_closest_point(line.p1, bounced)
         #     if new_distance[1] is not None:
@@ -194,6 +199,7 @@ class Controller:
         #         break
         new_distance = self.distance_closest_point(line.p1, [])
         while new_distance[0] < self.RENDER_DISTANCE:
+            final_dist_data += new_distance[0] / 15
             if new_distance[1] is not None:
                 if new_distance[0] < new_distance[1].r:
                     color = new_distance[1].color
@@ -205,14 +211,11 @@ class Controller:
             loop_count += 1
             new_distance = self.distance_closest_point(line.p1, [])
 
-        return self.adjust_color(final_dist_data, color) if collision else Qt.white
+        # return adjust_color(final_dist_data, color) if collision else Qt.white
+        return color if collision else Qt.white
 
     def distance_closest_point(self, p: Point, ignored: list) -> list:
         return self.model.distance_closest_point(p, ignored)
-
-    def adjust_color(self, index, color: QColor) -> QColor:
-        # return QColor(color.red() / index, color.green() / index, color.blue() / index, color.alpha() / index)
-        return QColor(color.red(), color.green(), color.blue(), color.alpha() / index)
 
     def loop(self, speed: float):
         self.model.loop(speed)
